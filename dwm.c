@@ -245,6 +245,7 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
+static void autostart(void);
 
 /* variables */
 static const char broken[] = "broken";
@@ -2267,6 +2268,11 @@ zoom(const Arg *arg)
 	pop(c);
 }
 
+void
+autostart(void)
+{
+    system("~/.dwm/autostart");
+}
 int
 main(int argc, char *argv[])
 {
@@ -2280,6 +2286,7 @@ main(int argc, char *argv[])
 		die("dwm: cannot open display");
 	checkotherwm();
 	setup();
+    autostart();
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
 		die("pledge");
