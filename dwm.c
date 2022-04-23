@@ -2273,6 +2273,7 @@ autostart(void)
 {
     system("~/.dwm/autostart");
 }
+
 int
 main(int argc, char *argv[])
 {
