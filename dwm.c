@@ -252,6 +252,7 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
 static void autostart(void);
+static void change_bg(void);
 
 /* variables */
 static const char broken[] = "broken";
@@ -2318,6 +2319,12 @@ void
 autostart(void)
 {
     system("~/.dwm/autostart");
+}
+
+void
+change_bg(void)
+{
+    system("~/.fehbg");
 }
 
 int
