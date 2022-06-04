@@ -2,3 +2,4 @@ while true; do ~/.fehbg; sleep 30m; done &
 
 ~/.dwm/bar &
 picom &
+nm-applet &

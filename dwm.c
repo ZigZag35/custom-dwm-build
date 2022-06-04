@@ -174,7 +174,6 @@ static void enternotify(XEvent *e);
 static void expose(XEvent *e);
 static void focus(Client *c);
 static void focusin(XEvent *e);
-static void focusmon(const Arg *arg);
 static void focusstack(const Arg *arg);
 static int getrootptr(int *x, int *y);
 static long getstate(Window w);
@@ -251,8 +250,8 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
-static void autostart(void);
-static void change_bg(void);
+static void *autostart(void);
+static void change_bg(const Arg *arg);
 
 /* variables */
 static const char broken[] = "broken";
@@ -848,20 +847,6 @@ focusin(XEvent *e)
 
 	if (selmon->sel && ev->window != selmon->sel->win)
 		setfocus(selmon->sel);
-}
-
-void
-focusmon(const Arg *arg)
-{
-	Monitor *m;
-
-	if (!mons->next)
-		return;
-	if ((m = dirtomon(arg->i)) == selmon)
-		return;
-	unfocus(selmon->sel, 0);
-	selmon = m;
-	focus(NULL);
 }
 
 void
@@ -1539,7 +1524,7 @@ setcurrentdesktop(void){
 }
 void setdesktopnames(void){
 	XTextProperty text;
-	Xutf8TextListToTextProperty(dpy, tags, TAGSLENGTH, XUTF8StringStyle, &text);
+	Xutf8TextListToTextProperty(dpy,(char**) tags, TAGSLENGTH, XUTF8StringStyle, &text);
 	XSetTextProperty(dpy, root, &text, netatom[NetDesktopNames]);
 }
 
@@ -2008,7 +1993,7 @@ updateclientlist()
 void updatecurrentdesktop(void){
 	long rawdata[] = { selmon->tagset[selmon->seltags] };
 	int i=0;
-	while(*rawdata >> i+1){
+	while(*rawdata >> (i+1)){
 		i++;
 	}
 	long data[] = { i };
@@ -2315,16 +2300,17 @@ zoom(const Arg *arg)
 	pop(c);
 }
 
-void
+void*
 autostart(void)
 {
-    system("~/.dwm/autostart");
+	system("~/.dwm/autostart");
+	return NULL;
 }
 
 void
-change_bg(void)
+change_bg(const Arg *arg)
 {
-    system("~/.fehbg");
+	system("~/.fehbg");
 }
 
 int
@@ -2340,13 +2326,15 @@ main(int argc, char *argv[])
 		die("dwm: cannot open display");
 	checkotherwm();
 	setup();
-    autostart();
+	// autostart jobs in background
+	autostart();
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
 		die("pledge");
 #endif /* __OpenBSD__ */
 	scan();
 	run();
+	// wait for autostart job to finish
 	cleanup();
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
