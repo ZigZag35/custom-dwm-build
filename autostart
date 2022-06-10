@@ -1,5 +1,14 @@
-while true; do ~/.fehbg; sleep 30m; done &
+#!/bin/bash
+
+if [[ ! ${BACKGROUND_CYCLE} = 1 ]]; then
+  while true; do
+    echo hello
+    export BACKGROUND_CYCLE_PID=$$
+    export BACKGROUND_CYCLE=1
+    ~/.fehbg
+    sleep 30m
+  done &
+fi
 
 ~/.dwm/bar &
 picom &
-nm-applet &

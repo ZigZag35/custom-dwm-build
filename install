@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [[ ! $(polybar -h) ]]; then
+  echo "polybar is required."
+  exit 1
+fi
+
+cp -r polybar/ ~/.config/
+
+sudo make clean install
