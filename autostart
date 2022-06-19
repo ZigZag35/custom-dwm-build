@@ -10,5 +10,8 @@ if [[ ! ${BACKGROUND_CYCLE} = 1 ]]; then
   done &
 fi
 
+nm-applet &
+blueman-applet &
+
 ~/.dwm/bar &
 picom &
