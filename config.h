@@ -20,7 +20,7 @@ static const char dmenufont[]       = "monospace:size=10";
 #include "themes/gruvbox.h"
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "T", "B", "1", "2", "3", "4", "5", "D", "S" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -145,4 +145,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
