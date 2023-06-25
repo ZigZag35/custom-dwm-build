@@ -4,6 +4,9 @@ tag*
 *.rej
 *.diff
 *.orig
+config.h
+dwm
+dwm-polybar
 *.o
 config.h
 dwm-polybar
