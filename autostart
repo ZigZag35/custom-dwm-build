@@ -5,8 +5,10 @@ while true; do
   sleep 30m
 done &
 
+xscreensaver --tray &
 nm-applet &
 blueman-applet &
+udiskie &
 
 ~/.dwm/bar &
 picom &
