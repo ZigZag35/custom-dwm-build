@@ -250,7 +250,7 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
-static void *autostart(void);
+static void autostart(const char* autostart_file);
 static void change_bg(const Arg *arg);
 
 /* variables */
@@ -2300,16 +2300,17 @@ zoom(const Arg *arg)
 	pop(c);
 }
 
-void*
-autostart(void)
+void
+autostart(const char* autostart_file)
 {
-	system("~/.dwm/autostart");
-	return NULL;
+	if (access(autostart_file, F_OK) ==  0) {
+		system(autostart_file);
+	} else {
+		fprintf(stderr, "autostart file %s not found.", autostart_file);
+	}
 }
 
-void
-change_bg(const Arg *arg)
-{
+void change_bg(const Arg *arg) {
 	system("~/.fehbg");
 }
 
@@ -2327,7 +2328,7 @@ main(int argc, char *argv[])
 	checkotherwm();
 	setup();
 	// autostart jobs in background
-	autostart();
+	autostart(autostart_file);
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
 		die("pledge");

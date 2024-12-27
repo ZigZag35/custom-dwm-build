@@ -1,5 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
+static const char* autostart_file = "~/.autostart";
+
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 16;       /* snap pixel */
